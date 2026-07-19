@@ -38,11 +38,29 @@ case "${1:-status}" in
     cd "$APP_DIR" && npm run build
     echo "Build listo — el hub sirve dist/ en http://localhost:8000/sudoku/"
     ;;
+  backup)
+    ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs/claude_Backups/Sudoku-Backups"
+    KEEP=10
+    ts="$(date +%Y-%m-%d_%H-%M-%S)"
+    out="$ICLOUD/$ts"
+    mkdir -p "$out" || { echo "No se pudo crear $out (¿iCloud Drive activo?)"; exit 1; }
+    echo "▶ Copiando código a iCloud ($ts)…"
+    rsync -a \
+      --exclude node_modules --exclude dist --exclude .git \
+      --exclude '.sudoku-dev.*' --exclude .DS_Store \
+      "$APP_DIR/" "$out/"
+    echo "▶ Rotación (mantener $KEEP copias)…"
+    ls -1 "$ICLOUD" 2>/dev/null | sort -r | tail -n +$((KEEP+1)) | while read -r old; do
+      rm -rf "$ICLOUD/$old"
+      echo "  eliminado respaldo antiguo: $old"
+    done
+    echo "✔ Respaldo completo en $out"
+    ;;
   status)
     pid=$(get_pid)
     if [ -n "$pid" ]; then echo "running (PID $pid, :$PORT)"; else echo "stopped"; fi
     ;;
   *)
-    echo "uso: sudoku.sh {start|stop|restart|build|status}"
+    echo "uso: sudoku.sh {start|stop|restart|build|backup|status}"
     ;;
 esac
