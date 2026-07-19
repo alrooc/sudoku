@@ -305,6 +305,17 @@ export default function App() {
         </aside>
       </main>
 
+      <footer className="colophon">
+        <p className="colophon-copy">
+          © 2026 Alberto Rojas · Todos los derechos reservados
+        </p>
+        <p className="colophon-terms">
+          Juego de uso libre para fines personales y recreativos. Prohibida la
+          reproducción, distribución o uso comercial del código o del diseño
+          sin autorización del autor.
+        </p>
+      </footer>
+
       {ctxMenu && (
         <>
           <div
