@@ -343,7 +343,8 @@ button:disabled {
 .board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  width: min(92vw, 520px);
+  grid-template-rows: repeat(9, 1fr);
+  width: min(92vw, 520px, calc(100dvh - 140px));
   aspect-ratio: 1;
   background: var(--surface);
   border: 2px solid var(--line-strong);
@@ -356,10 +357,13 @@ button:disabled {
   position: relative;
   display: grid;
   place-items: center;
+  min-width: 0;
+  min-height: 0;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   border-radius: 0;
   transition: background-color 0.12s ease;
+  -webkit-touch-callout: none;
 }
 
 .cell:nth-child(9n) {
@@ -469,11 +473,11 @@ button:disabled {
 }
 
 .cell-notes {
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 100%;
-  height: 100%;
   padding: 3px;
 }
 
@@ -713,6 +717,56 @@ button:disabled {
 
   .numpad-count {
     font-size: 9px;
+  }
+}
+
+/* Teléfono en horizontal: compactar para que tablero y panel quepan a lo alto */
+@media (max-height: 500px) {
+  .app {
+    padding: 8px clamp(12px, 3vw, 24px) 12px;
+  }
+
+  .header {
+    padding: 2px 0 10px;
+  }
+
+  .wordmark {
+    font-size: 22px;
+  }
+
+  .panel {
+    gap: 10px;
+    padding-top: 0;
+    width: 280px;
+  }
+
+  .tool {
+    padding: 6px 4px 5px;
+  }
+
+  .tool-icon {
+    font-size: 19px;
+  }
+
+  .tool-label {
+    font-size: 11px;
+  }
+
+  .numpad {
+    gap: 6px;
+  }
+
+  .numpad-key {
+    padding: 6px 0 4px;
+    border-radius: 9px;
+  }
+
+  .numpad-digit {
+    font-size: 20px;
+  }
+
+  .colophon {
+    display: none;
   }
 }
 
