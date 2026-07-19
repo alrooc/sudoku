@@ -1,0 +1,18 @@
+{
+  "name": "Sudoku",
+  "short_name": "Sudoku",
+  "description": "Sudoku premium: puzzles con solución única, notas, pistas y estadísticas.",
+  "lang": "es",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f1522",
+  "theme_color": "#0f1522",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+node_modules
+dist
+.sudoku-dev.pid
+.sudoku-dev.log
+.DS_Store
