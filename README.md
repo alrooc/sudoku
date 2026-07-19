@@ -4,11 +4,18 @@ Sudoku premium para navegador: puzzles generados con solución única garantizad
 notas de lápiz, pistas, estadísticas y temas claro/oscuro. Sin backend — todo
 corre en el navegador y el progreso se guarda en localStorage.
 
+## Jugar
+
+Versión de producción siempre disponible en **http://localhost:8000/sudoku/**
+(portal Mis Apps; `dist/` servido por symlink). Tras cambios de código, correr
+`npm run build` para actualizarla.
+
 ## Desarrollo
 
 ```sh
 npm install
-npm run dev        # servidor de desarrollo en http://localhost:5173
+npm run dev        # servidor de desarrollo en http://localhost:5175
+./sudoku.sh start  # o vía el gestor (usado por el Dashboard)
 npm run build      # type-check + build de producción en dist/
 npm run lint       # ESLint
 npm run preview    # sirve el build de producción

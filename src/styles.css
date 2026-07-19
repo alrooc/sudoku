@@ -181,10 +181,10 @@ button:disabled {
 }
 
 .icon-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
-  font-size: 17px;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  font-size: 23px;
   color: var(--dim);
   display: grid;
   place-items: center;
@@ -634,7 +634,7 @@ button:disabled {
 
 .tool-icon {
   position: relative;
-  font-size: 19px;
+  font-size: 23px;
   line-height: 1;
 }
 
@@ -651,7 +651,7 @@ button:disabled {
 }
 
 .tool-label {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* ——— Teclado numérico ——— */
