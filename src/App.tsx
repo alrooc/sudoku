@@ -6,7 +6,13 @@ import { NumberPad } from './components/NumberPad'
 import { Toolbar } from './components/Toolbar'
 import { useGame } from './hooks/useGame'
 import { accentVars } from './lib/accents'
-import { playCorrect, playLost, playWin, playWrong } from './lib/sounds'
+import {
+  playCorrect,
+  playDigitComplete,
+  playLost,
+  playWin,
+  playWrong,
+} from './lib/sounds'
 import {
   loadAccent,
   loadSettings,
@@ -20,7 +26,7 @@ import {
 } from './lib/storage'
 import { formatTime, type Difficulty } from './lib/types'
 
-type Dialog = 'none' | 'new' | 'stats'
+type Dialog = 'none' | 'new' | 'stats' | 'info'
 
 export default function App() {
   const game = useGame()
@@ -75,8 +81,10 @@ export default function App() {
   useEffect(() => {
     if (!state.lastEvent || !soundRef.current) return
     if (statusRef.current !== 'playing') return
-    if (state.lastEvent.kind === 'correct') playCorrect()
-    else playWrong()
+    if (state.lastEvent.kind === 'correct') {
+      if (state.lastEvent.completedDigit !== undefined) playDigitComplete()
+      else playCorrect()
+    } else playWrong()
   }, [state.lastEvent])
 
   useEffect(() => {
@@ -307,12 +315,15 @@ export default function App() {
 
       <footer className="colophon">
         <p className="colophon-copy">
-          © 2026 Alberto Rojas · Todos los derechos reservados
-        </p>
-        <p className="colophon-terms">
-          Juego de uso libre para fines personales y recreativos. Prohibida la
-          reproducción, distribución o uso comercial del código o del diseño
-          sin autorización del autor.
+          Copyright 2026 · Alrooc
+          <button
+            type="button"
+            className="info-btn"
+            onClick={() => setDialog('info')}
+            aria-label="Información, versión y términos de uso"
+          >
+            i
+          </button>
         </p>
       </footer>
 

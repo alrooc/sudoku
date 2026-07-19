@@ -97,21 +97,40 @@ function completedUnitCells(
   return [...flash]
 }
 
+function completedDigitCells(
+  cells: CellState[],
+  solution: Grid,
+  digit: number,
+): number[] {
+  const members: number[] = []
+  for (let i = 0; i < 81; i++) {
+    if (solution[i] === digit) members.push(i)
+  }
+  return members.every((i) => cells[i].value === digit) ? members : []
+}
+
 function applyCorrectPlacement(
   state: GameState,
   cells: CellState[],
   index: number,
   digit: number,
-): Pick<GameState, 'flashCells' | 'flashId'> {
+): { flash: Pick<GameState, 'flashCells' | 'flashId'>; digitCompleted: boolean } {
   for (let i = 0; i < 81; i++) {
     if (i !== index && samePeerGroup(i, index)) {
       cells[i] = { ...cells[i], notes: cells[i].notes.filter((n) => n !== digit) }
     }
   }
-  const flashCells = completedUnitCells(cells, state.solution, index)
-  return flashCells.length > 0
-    ? { flashCells, flashId: state.flashId + 1 }
-    : { flashCells: state.flashCells, flashId: state.flashId }
+  const digitCells = completedDigitCells(cells, state.solution, digit)
+  const flashCells = [
+    ...new Set([...completedUnitCells(cells, state.solution, index), ...digitCells]),
+  ]
+  return {
+    flash:
+      flashCells.length > 0
+        ? { flashCells, flashId: state.flashId + 1 }
+        : { flashCells: state.flashCells, flashId: state.flashId },
+    digitCompleted: digitCells.length > 0,
+  }
 }
 
 type Action =
@@ -192,9 +211,12 @@ function reducer(state: GameState, action: Action): GameState {
 
       cells[index] = { ...cells[index], value: action.digit, notes: [] }
       const correct = action.digit === state.solution[index]
-      const flash = correct
+      const { flash, digitCompleted } = correct
         ? applyCorrectPlacement(state, cells, index, action.digit)
-        : { flashCells: state.flashCells, flashId: state.flashId }
+        : {
+            flash: { flashCells: state.flashCells, flashId: state.flashId },
+            digitCompleted: false,
+          }
       const won = correct && isSolved(cells, state.solution)
       const mistakes = correct ? state.mistakes : state.mistakes + 1
       const lost =
@@ -210,6 +232,7 @@ function reducer(state: GameState, action: Action): GameState {
         lastEvent: {
           kind: correct ? 'correct' : 'wrong',
           id: (state.lastEvent?.id ?? 0) + 1,
+          ...(digitCompleted ? { completedDigit: action.digit } : {}),
         },
         ...flash,
       }
@@ -272,7 +295,12 @@ function reducer(state: GameState, action: Action): GameState {
       const cells = cloneCells(state.cells)
       const digit = state.solution[index]
       cells[index] = { ...cells[index], value: digit, notes: [] }
-      const flash = applyCorrectPlacement(state, cells, index, digit)
+      const { flash, digitCompleted } = applyCorrectPlacement(
+        state,
+        cells,
+        index,
+        digit,
+      )
       const won = isSolved(cells, state.solution)
       return {
         ...state,
@@ -282,7 +310,11 @@ function reducer(state: GameState, action: Action): GameState {
         hintsLeft: state.hintsLeft - 1,
         status: won ? 'won' : 'playing',
         selected: won ? null : index,
-        lastEvent: { kind: 'correct', id: (state.lastEvent?.id ?? 0) + 1 },
+        lastEvent: {
+          kind: 'correct',
+          id: (state.lastEvent?.id ?? 0) + 1,
+          ...(digitCompleted ? { completedDigit: digit } : {}),
+        },
         ...flash,
       }
     }

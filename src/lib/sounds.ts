@@ -48,6 +48,14 @@ export function playWrong(): void {
   tone(audio, 220, 0, 0.2, { type: 'triangle', peak: 0.35, freqEnd: 140 })
 }
 
+export function playDigitComplete(): void {
+  const audio = ensureContext()
+  if (!audio) return
+  tone(audio, 659.25, 0, 0.12, { peak: 0.22 })
+  tone(audio, 880, 0.07, 0.14, { peak: 0.22 })
+  tone(audio, 1318.5, 0.14, 0.32, { peak: 0.18 })
+}
+
 export function playWin(): void {
   const audio = ensureContext()
   if (!audio) return

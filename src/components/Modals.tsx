@@ -5,6 +5,7 @@ import {
   formatTime,
   type Difficulty,
 } from '../lib/types'
+import { APP_VERSION } from '../lib/version'
 
 const DIFFICULTIES: Difficulty[] = ['facil', 'medio', 'dificil', 'experto']
 
@@ -58,7 +59,7 @@ export function Modals({
   onPickDifficulty,
   onClose,
 }: {
-  dialog: 'none' | 'new' | 'stats'
+  dialog: 'none' | 'new' | 'stats' | 'info'
   stats: Stats
   maxMistakes: number
   onChangeMaxMistakes: (n: number) => void
@@ -78,7 +79,26 @@ export function Modals({
   if (dialog === 'stats') {
     return <StatsModal stats={stats} onClose={onClose} />
   }
+  if (dialog === 'info') {
+    return <InfoModal onClose={onClose} />
+  }
   return null
+}
+
+function InfoModal({ onClose }: { onClose: () => void }) {
+  return (
+    <Modal title="Acerca de Sudoku" onClose={onClose}>
+      <p className="about-version">Versión {APP_VERSION}</p>
+      <p className="about-copy">
+        © 2026 Alberto Rojas (Alrooc) · Todos los derechos reservados
+      </p>
+      <p className="about-terms">
+        Juego de uso libre para fines personales y recreativos. Prohibida la
+        reproducción, distribución o uso comercial del código o del diseño sin
+        autorización del autor.
+      </p>
+    </Modal>
+  )
 }
 
 function NewGameModal({

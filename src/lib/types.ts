@@ -34,7 +34,11 @@ export interface GameState {
   redoStack: CellState[][]
   flashCells: number[]
   flashId: number
-  lastEvent: { kind: 'correct' | 'wrong'; id: number } | null
+  lastEvent: {
+    kind: 'correct' | 'wrong'
+    id: number
+    completedDigit?: number
+  } | null
 }
 
 export const rowOf = (i: number): number => Math.floor(i / 9)

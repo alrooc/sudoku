@@ -700,6 +700,50 @@ button:disabled {
   opacity: 0.35;
 }
 
+/* Festejo al completar los 9 ejemplares de un número */
+.numpad-key--celebrate {
+  animation: numpad-ring 1s ease-out;
+}
+
+.numpad-key--celebrate .numpad-digit {
+  animation: numpad-pop 1s ease-out;
+}
+
+@keyframes numpad-ring {
+  0% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 2px var(--gold),
+      0 0 0 0 color-mix(in srgb, var(--gold) 70%, transparent);
+  }
+  55% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 2px var(--gold),
+      0 0 20px 5px color-mix(in srgb, var(--gold) 40%, transparent);
+  }
+  100% {
+    opacity: 0.35;
+    box-shadow:
+      inset 0 0 0 1px var(--line),
+      0 0 0 0 transparent;
+  }
+}
+
+@keyframes numpad-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.5);
+    color: var(--gold);
+    text-shadow: 0 0 16px color-mix(in srgb, var(--gold) 80%, transparent);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 879px) {
   .numpad {
     grid-template-columns: repeat(9, 1fr);
@@ -949,11 +993,40 @@ button:disabled {
   letter-spacing: 0.04em;
 }
 
-.colophon-terms {
-  margin-top: 4px;
-  font-size: 10.5px;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
+.info-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  vertical-align: -3px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.info-btn:hover {
+  color: var(--text);
+}
+
+.about-version {
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.about-copy {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.about-terms {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--dim);
 }
 
 /* ——— Movimiento reducido ——— */

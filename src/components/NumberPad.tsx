@@ -18,11 +18,14 @@ export function NumberPad({ state, onInput }: NumberPadProps) {
       {Array.from({ length: 9 }, (_, n) => {
         const digit = n + 1
         const done = counts[digit] === 9
+        const celebrate = state.lastEvent?.completedDigit === digit
         return (
           <button
             key={digit}
             type="button"
-            className={`numpad-key${done ? ' numpad-key--done' : ''}`}
+            className={`numpad-key${done ? ' numpad-key--done' : ''}${
+              celebrate ? ' numpad-key--celebrate' : ''
+            }`}
             onClick={() => onInput(digit)}
             disabled={done}
           >
